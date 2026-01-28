@@ -1,0 +1,253 @@
+.legend {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border-light);
+  flex-wrap: wrap;
+  position: sticky;
+  top: calc(var(--header-height) + var(--spacing-lg));
+  z-index: 40;
+  transition: background-color var(--transition-normal), border-color var(--transition-normal);
+}
+
+.legendSection {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.sectionLabel {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: var(--color-border);
+}
+
+.filterGroup {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.optionsGroup {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.filterBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-fast);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.filterBtn:hover {
+  border-color: var(--filter-color);
+  background: var(--filter-bg);
+}
+
+.filterBtn.active {
+  background: var(--filter-bg);
+  border-color: var(--filter-color);
+  color: var(--filter-color);
+}
+
+.filterDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--filter-color);
+}
+
+.filterLabel {
+  white-space: nowrap;
+}
+
+/* Toggle button */
+.toggleBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-fast);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.toggleBtn:hover {
+  border-color: var(--color-text-tertiary);
+}
+
+.toggleBtn.active {
+  background: var(--color-selected-bg);
+  border-color: var(--color-selected);
+  color: var(--color-selected);
+}
+
+.toggleTrack {
+  position: relative;
+  width: 28px;
+  height: 16px;
+  background: var(--color-border);
+  border-radius: 8px;
+  transition: background var(--transition-fast);
+}
+
+.toggleBtn.active .toggleTrack {
+  background: var(--color-selected);
+}
+
+.toggleBtn.holidayToggle.active {
+  background: var(--color-holiday-toggle-bg);
+  border-color: var(--color-holiday-toggle);
+  color: var(--color-holiday-toggle);
+}
+
+.toggleBtn.holidayToggle.active .toggleTrack {
+  background: var(--color-holiday-toggle);
+}
+
+.toggleThumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  transition: transform var(--transition-fast);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.toggleBtn.active .toggleThumb {
+  transform: translateX(12px);
+}
+
+.toggleLabel {
+  white-space: nowrap;
+}
+
+/* Selected indicator */
+.selectedIndicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.selectedDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-selected);
+  flex-shrink: 0;
+}
+
+.selectedText {
+  font-size: 0.6875rem;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+/* Outlook button */
+.outlookBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  background: var(--color-brand);
+  border: none;
+  transition: all var(--transition-fast);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: white;
+}
+
+.outlookBtn:hover {
+  background: var(--color-brand-dark);
+}
+
+.outlookBtn svg {
+  flex-shrink: 0;
+}
+
+@media (max-width: 1400px) {
+  .legend {
+    padding: var(--spacing-sm) var(--spacing-md);
+    gap: var(--spacing-md);
+  }
+
+  .legendSection {
+    gap: var(--spacing-sm);
+  }
+
+  .filterGroup {
+    flex-wrap: wrap;
+  }
+
+  .optionsGroup {
+    flex-wrap: wrap;
+  }
+
+  .divider {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .legend {
+    flex-direction: column;
+    align-items: flex-start;
+    position: static;
+  }
+
+  .legendSection {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .filterGroup {
+    width: 100%;
+  }
+
+  .optionsGroup {
+    width: 100%;
+  }
+
+  .filterBtn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .toggleBtn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .outlookBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

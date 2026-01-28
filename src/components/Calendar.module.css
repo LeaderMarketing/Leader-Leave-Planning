@@ -1,0 +1,284 @@
+.calendar {
+  width: 100%;
+}
+
+.yearNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.yearNavBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.yearNavBtn:hover {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  border-color: var(--color-text-tertiary);
+}
+
+.yearDisplay {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  min-width: 80px;
+  text-align: center;
+}
+
+.monthsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-lg);
+}
+
+@media (max-width: 1400px) {
+  .monthsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1000px) {
+  .monthsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .monthsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.monthCard {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border-light);
+  transition: box-shadow var(--transition-normal);
+}
+
+.monthCard:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.monthCardGrandFinal {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.monthCardGrandFinal:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.monthHeader {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  padding: var(--spacing-sm);
+  margin: calc(-1 * var(--spacing-md));
+  margin-bottom: var(--spacing-sm);
+  background: var(--color-brand);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.monthHeaderGrandFinal {
+  background: #ef4444;
+}
+
+.weekdayHeader {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: var(--spacing-xs);
+}
+
+.weekday {
+  font-size: 0.625rem;
+  font-weight: 500;
+  color: var(--color-text-tertiary);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: var(--spacing-xs) 0;
+}
+
+.daysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.dateCell {
+  position: relative;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  cursor: default;
+}
+
+.dateNumber {
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.otherMonth {
+  visibility: hidden;
+}
+
+.selectable {
+  cursor: pointer;
+}
+
+.selectable:hover {
+  background: var(--color-bg);
+}
+
+/* Weekend styles */
+.weekend {
+  color: var(--color-text-tertiary);
+}
+
+.weekend.disabled {
+  background: var(--color-weekend-disabled);
+  color: var(--color-text-tertiary);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Holiday styles */
+.holiday {
+  background: var(--color-holiday-bg);
+  color: var(--color-holiday);
+  cursor: default;
+}
+
+.holiday .dateNumber {
+  font-weight: 500;
+}
+
+/* Selected state */
+.selected {
+  background: var(--color-selected) !important;
+  color: white !important;
+}
+
+.selected .dateNumber {
+  font-weight: 500;
+}
+
+/* Selected Grand Final state - red to reinforce caution */
+.selectedGrandFinal {
+  background: #ef4444 !important;
+  color: white !important;
+}
+
+.selectedGrandFinal .dateNumber {
+  font-weight: 500;
+}
+
+/* Selected Busy state - orange to indicate caution */
+.selectedBusy {
+  background: #f59e0b !important;
+  color: white !important;
+}
+
+.selectedBusy .dateNumber {
+  font-weight: 500;
+}
+
+/* Highlight states for filters */
+.highlight-leave-ok {
+  background: var(--color-leave-ok-bg);
+  color: var(--color-leave-ok);
+}
+
+.highlight-leave-ok .dateNumber {
+  font-weight: 500;
+}
+
+.highlight-long-leave {
+  background: var(--color-long-leave-bg);
+  color: var(--color-long-leave);
+}
+
+.highlight-long-leave .dateNumber {
+  font-weight: 500;
+}
+
+.highlight-busy {
+  background: var(--color-busy-bg);
+  color: var(--color-busy);
+}
+
+.highlight-busy .dateNumber {
+  font-weight: 500;
+}
+
+.highlight-grand-final {
+  background: var(--color-grand-final-bg);
+  color: var(--color-grand-final);
+}
+
+.highlight-grand-final .dateNumber {
+  font-weight: 500;
+}
+
+.highlight-public-holiday {
+  background: var(--color-holiday-bg);
+  color: var(--color-holiday);
+}
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-text-primary);
+  color: white;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  z-index: 100;
+  pointer-events: none;
+  box-shadow: var(--shadow-md);
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--color-text-primary);
+}
+
+.tooltipGrandFinal {
+  background: #991b1b;
+  color: white;
+}
+
+.tooltipGrandFinal::after {
+  border-top-color: #991b1b;
+}
