@@ -156,7 +156,7 @@ This tool reflects our commitment to:
 
 ## 🛠️ Technical Information
 
-- Built with React and Vite
+- Built with React and Vite by John Cardenas
 - Responsive design works on desktop and tablet
 - No data is stored — all form data stays in your browser
 - ICS export compatible with Outlook, Google Calendar, and Apple Calendar
