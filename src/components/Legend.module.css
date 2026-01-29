@@ -192,6 +192,12 @@
   flex-shrink: 0;
 }
 
+.outlookIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
 @media (max-width: 1400px) {
   .legend {
     padding: var(--spacing-sm) var(--spacing-md);

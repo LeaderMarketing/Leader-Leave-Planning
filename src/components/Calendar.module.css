@@ -2,12 +2,24 @@
   width: 100%;
 }
 
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xl);
+}
+
+.selectDatesLabel {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
 .yearNav {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
+  gap: var(--spacing-sm);
 }
 
 .yearNavBtn {
@@ -30,7 +42,7 @@
 }
 
 .yearDisplay {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: var(--color-text-primary);
   min-width: 80px;
@@ -68,6 +80,8 @@
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--color-border-light);
   transition: box-shadow var(--transition-normal);
+  position: relative;
+  overflow: hidden;
 }
 
 .monthCard:hover {
@@ -81,6 +95,87 @@
 
 .monthCardGrandFinal:hover {
   box-shadow: var(--shadow-md);
+}
+
+.monthContent {
+  position: relative;
+  z-index: 2;
+  transition: filter 600ms ease;
+}
+
+.monthCardGrandFinal:not(:hover) .monthContent {
+  filter: blur(2px);
+  animation: contentBlurPulse 5s ease-in-out infinite;
+}
+
+.grandFinalOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 600ms ease;
+  background: rgba(180, 30, 30, 0.75);
+  box-shadow: inset 0 0 40px 15px rgba(220, 38, 38, 0.9), inset 0 0 80px 30px rgba(185, 28, 28, 0.6);
+  border-radius: var(--radius-lg);
+}
+
+.monthCardGrandFinal:not(:hover) .grandFinalOverlay {
+  animation: grandFinalFadeInOut 5s ease-in-out infinite;
+}
+
+.grandFinalOverlayContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  padding: var(--spacing-sm);
+}
+
+.grandFinalLottie {
+  width: 70px;
+  height: 70px;
+  margin-bottom: var(--spacing-xs);
+}
+
+.grandFinalTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 2px;
+}
+
+.grandFinalDesc {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  opacity: 0.95;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  max-width: 160px;
+}
+
+@keyframes grandFinalFadeInOut {
+  0%, 100% {
+    opacity: 0;
+  }
+  20%, 80% {
+    opacity: 1;
+  }
+}
+
+@keyframes contentBlurPulse {
+  0%, 100% {
+    filter: blur(0px);
+  }
+  20%, 80% {
+    filter: blur(2px);
+  }
 }
 
 .monthHeader {
@@ -184,13 +279,23 @@
   font-weight: 500;
 }
 
-/* Selected Grand Final state - red to reinforce caution */
-.selectedGrandFinal {
-  background: #ef4444 !important;
+/* Selected Leave OK state - green */
+.selectedLeaveOk {
+  background: #22c55e !important;
   color: white !important;
 }
 
-.selectedGrandFinal .dateNumber {
+.selectedLeaveOk .dateNumber {
+  font-weight: 500;
+}
+
+/* Selected Long Leave state - blue */
+.selectedLongLeave {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+.selectedLongLeave .dateNumber {
   font-weight: 500;
 }
 
@@ -201,6 +306,16 @@
 }
 
 .selectedBusy .dateNumber {
+  font-weight: 500;
+}
+
+/* Selected Grand Final state - red to reinforce caution */
+.selectedGrandFinal {
+  background: #ef4444 !important;
+  color: white !important;
+}
+
+.selectedGrandFinal .dateNumber {
   font-weight: 500;
 }
 
@@ -281,4 +396,31 @@
 
 .tooltipGrandFinal::after {
   border-top-color: #991b1b;
+}
+
+.tooltipLeaveOk {
+  background: #15803d;
+  color: white;
+}
+
+.tooltipLeaveOk::after {
+  border-top-color: #15803d;
+}
+
+.tooltipLongLeave {
+  background: #1e40af;
+  color: white;
+}
+
+.tooltipLongLeave::after {
+  border-top-color: #1e40af;
+}
+
+.tooltipBusy {
+  background: #b45309;
+  color: white;
+}
+
+.tooltipBusy::after {
+  border-top-color: #b45309;
 }

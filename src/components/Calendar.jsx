@@ -13,6 +13,8 @@ import {
   isSunday,
 } from 'date-fns';
 import { publicHolidays, leavePeriods } from '../data/leaveData';
+import Lottie from 'lottie-react';
+import trophyAnimation from '../assets/trophy_13311710.json';
 import styles from './Calendar.module.css';
 
 const MONTHS = [
@@ -72,13 +74,13 @@ function Calendar({
     // Weekend tooltip
     if (isWeekend(date)) {
       const dayName = isSaturday(date) ? 'Saturday' : 'Sunday';
-      return { text: `Weekend (${dayName})`, isGrandFinal: false };
+      return { text: `Weekend (${dayName})`, status: null };
     }
 
     // Holiday tooltip
     const holiday = getHoliday(date);
     if (holiday) {
-      return { text: holiday.name, isGrandFinal: false };
+      return { text: holiday.name, status: null };
     }
 
     // Leave period tooltip
@@ -86,21 +88,21 @@ function Calendar({
     if (status) {
       return { 
         text: status.note || status.label, 
-        isGrandFinal: status.status === 'grand-final' 
+        status: status.status
       };
     }
 
     return null;
   };
 
-  // Check if date should be highlighted based on active filter
+  // Check if date should be highlighted based on active filters
   const shouldHighlight = (date) => {
-    if (!activeFilter) return false;
+    if (!activeFilter || activeFilter.length === 0) return null;
 
     const status = getLeaveStatus(date);
-    if (!status) return false;
+    if (!status) return null;
 
-    return status.status === activeFilter;
+    return activeFilter.includes(status.status) ? status.status : null;
   };
 
   // Check if date is selected
@@ -147,17 +149,22 @@ function Calendar({
     }
 
     // Apply filter highlight (but not on holidays when holiday styling is active)
-    if (shouldHighlight(date) && !(holiday && showHolidays)) {
-      classes.push(styles[`highlight-${activeFilter}`]);
+    const highlightStatus = shouldHighlight(date);
+    if (highlightStatus && !(holiday && showHolidays)) {
+      classes.push(styles[`highlight-${highlightStatus}`]);
     }
 
     // Check if date is selected
     if (isSelected(date)) {
-      // Use red selected style for Grand Final dates, orange for Busy dates
+      // Apply color-coded styling based on leave period type
       if (status && status.status === 'grand-final') {
         classes.push(styles.selectedGrandFinal);
       } else if (status && status.status === 'busy') {
         classes.push(styles.selectedBusy);
+      } else if (status && status.status === 'long-leave') {
+        classes.push(styles.selectedLongLeave);
+      } else if (status && status.status === 'leave-ok') {
+        classes.push(styles.selectedLeaveOk);
       } else {
         classes.push(styles.selected);
       }
@@ -197,18 +204,32 @@ function Calendar({
 
     return (
       <div key={monthIndex} className={monthCardClass}>
-        <div className={monthHeaderClass}>
-          {MONTHS[monthIndex]}
-        </div>
-        <div className={styles.weekdayHeader}>
-          {WEEKDAYS.map(weekday => (
-            <div key={weekday} className={styles.weekday}>
-              {weekday.charAt(0)}
+        {isGrandFinal && (
+          <div className={styles.grandFinalOverlay} aria-hidden="true">
+            <div className={styles.grandFinalOverlayContent}>
+              <div className={styles.grandFinalLottie}>
+                <Lottie animationData={trophyAnimation} loop={true} />
+              </div>
+              <div className={styles.grandFinalTitle}>Grand Final month</div>
+              <div className={styles.grandFinalDesc}>
+                Please avoid leave as this is biggest month of the year.
+              </div>
             </div>
-          ))}
-        </div>
-        <div className={styles.daysGrid}>
-          {days.map((date) => {
+          </div>
+        )}
+        <div className={styles.monthContent}>
+          <div className={monthHeaderClass}>
+            {MONTHS[monthIndex]}
+          </div>
+          <div className={styles.weekdayHeader}>
+            {WEEKDAYS.map(weekday => (
+              <div key={weekday} className={styles.weekday}>
+                {weekday.charAt(0)}
+              </div>
+            ))}
+          </div>
+          <div className={styles.daysGrid}>
+            {days.map((date) => {
             const tooltipData = isSameMonth(date, monthDate) ? getTooltipContent(date) : null;
             const dateKey = format(date, 'yyyy-MM-dd');
 
@@ -227,7 +248,12 @@ function Calendar({
                       {format(date, 'd')}
                     </span>
                     {tooltipData && hoveredDate === dateKey && (
-                      <div className={`${styles.tooltip} ${tooltipData.isGrandFinal ? styles.tooltipGrandFinal : ''}`}>
+                      <div className={`${styles.tooltip} ${
+                        tooltipData.status === 'grand-final' ? styles.tooltipGrandFinal :
+                        tooltipData.status === 'leave-ok' ? styles.tooltipLeaveOk :
+                        tooltipData.status === 'long-leave' ? styles.tooltipLongLeave :
+                        tooltipData.status === 'busy' ? styles.tooltipBusy : ''
+                      }`}>
                         {tooltipData.text}
                       </div>
                     )}
@@ -235,7 +261,8 @@ function Calendar({
                 )}
               </div>
             );
-          })}
+            })}
+          </div>
         </div>
       </div>
     );
@@ -243,26 +270,29 @@ function Calendar({
 
   return (
     <div className={styles.calendar}>
-      <div className={styles.yearNav}>
-        <button
-          className={styles.yearNavBtn}
-          onClick={() => onYearChange(currentYear - 1)}
-          aria-label="Previous year"
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-        <span className={styles.yearDisplay}>{currentYear}</span>
-        <button
-          className={styles.yearNavBtn}
-          onClick={() => onYearChange(currentYear + 1)}
-          aria-label="Next year"
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
+      <div className={styles.calendarHeader}>
+        <div className={styles.selectDatesLabel}>Select Leave Dates</div>
+        <div className={styles.yearNav}>
+          <button
+            className={styles.yearNavBtn}
+            onClick={() => onYearChange(currentYear - 1)}
+            aria-label="Previous year"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+          <span className={styles.yearDisplay}>{currentYear}</span>
+          <button
+            className={styles.yearNavBtn}
+            onClick={() => onYearChange(currentYear + 1)}
+            aria-label="Next year"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div className={styles.monthsGrid}>

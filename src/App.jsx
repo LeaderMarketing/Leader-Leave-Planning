@@ -8,7 +8,7 @@ import styles from './App.module.css';
 
 function App() {
   const [selectedDates, setSelectedDates] = useState([]);
-  const [activeFilter, setActiveFilter] = useState('grand-final');
+  const [activeFilter, setActiveFilter] = useState(['grand-final']);
   const [disableWeekends, setDisableWeekends] = useState(true);
   const [showHolidays, setShowHolidays] = useState(true);
   const [currentYear, setCurrentYear] = useState(2026);
@@ -43,7 +43,12 @@ function App() {
   }, []);
 
   const handleFilterChange = useCallback((filter) => {
-    setActiveFilter(filter);
+    setActiveFilter(prev => {
+      if (prev.includes(filter)) {
+        return prev.filter(item => item !== filter);
+      }
+      return [...prev, filter];
+    });
   }, []);
 
   const handleToggleWeekends = useCallback(() => {
@@ -64,7 +69,6 @@ function App() {
         <div className={styles.headerContent}>
           <div className={styles.brand}>
             <img src={leaderLogo} alt="LEADER" className={styles.logo} />
-            <span className={styles.brandDivider}>/</span>
             <span className={styles.brandTitle}>Leave Planner</span>
           </div>
 

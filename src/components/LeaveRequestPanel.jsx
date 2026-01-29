@@ -126,6 +126,48 @@ function LeaveRequestPanel({ selectedDates, onClearDates, onRemoveDate }) {
     return false;
   };
 
+  // Check if a date is in a Long Leave period
+  const isDateInLongLeave = (dateStr) => {
+    const date = new Date(dateStr);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    for (const period of leavePeriods) {
+      if (period.status !== 'long-leave') continue;
+      
+      const startCheck = month > period.startMonth ||
+        (month === period.startMonth && day >= period.startDay);
+      const endCheck = month < period.endMonth ||
+        (month === period.endMonth && day <= period.endDay);
+
+      if (startCheck && endCheck) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  // Check if a date is in a Leave OK period
+  const isDateInLeaveOk = (dateStr) => {
+    const date = new Date(dateStr);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    for (const period of leavePeriods) {
+      if (period.status !== 'leave-ok') continue;
+      
+      const startCheck = month > period.startMonth ||
+        (month === period.startMonth && day >= period.startDay);
+      const endCheck = month < period.endMonth ||
+        (month === period.endMonth && day <= period.endDay);
+
+      if (startCheck && endCheck) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   // Check if a date range contains any Grand Final dates
   const rangeHasGrandFinal = (start, end) => {
     const days = eachDayOfInterval({ start, end });
@@ -138,10 +180,24 @@ function LeaveRequestPanel({ selectedDates, onClearDates, onRemoveDate }) {
     return days.some(day => isDateInBusy(format(day, 'yyyy-MM-dd')));
   };
 
+  // Check if a date range contains any Long Leave dates
+  const rangeHasLongLeave = (start, end) => {
+    const days = eachDayOfInterval({ start, end });
+    return days.some(day => isDateInLongLeave(format(day, 'yyyy-MM-dd')));
+  };
+
+  // Check if a date range contains any Leave OK dates
+  const rangeHasLeaveOk = (start, end) => {
+    const days = eachDayOfInterval({ start, end });
+    return days.some(day => isDateInLeaveOk(format(day, 'yyyy-MM-dd')));
+  };
+
   // Get the style class for a date range
   const getRangeStyleClass = (start, end) => {
     if (rangeHasGrandFinal(start, end)) return styles.dateChipGrandFinal;
     if (rangeHasBusy(start, end)) return styles.dateChipBusy;
+    if (rangeHasLongLeave(start, end)) return styles.dateChipLongLeave;
+    if (rangeHasLeaveOk(start, end)) return styles.dateChipLeaveOk;
     return '';
   };
 
@@ -244,7 +300,7 @@ ${employeeName}`;
   return (
     <div className={styles.panel}>
       <div className={styles.panelHeader}>
-        <h2 className={styles.panelTitle}>Leave Request</h2>
+        <h2 className={styles.panelTitle}>Leave Request Assistant</h2>
         {sortedDates.length > 0 && (
           <button className={styles.clearBtn} onClick={onClearDates}>
             Clear all
@@ -291,8 +347,12 @@ ${employeeName}`;
                 const chipClass = isDateInGrandFinal(dateStr) 
                   ? styles.dateChipGrandFinal 
                   : isDateInBusy(dateStr) 
-                    ? styles.dateChipBusy 
-                    : '';
+                    ? styles.dateChipBusy
+                    : isDateInLongLeave(dateStr)
+                      ? styles.dateChipLongLeave
+                      : isDateInLeaveOk(dateStr)
+                        ? styles.dateChipLeaveOk
+                        : '';
                 return (
                   <div key={dateStr} className={`${styles.dateChip} ${chipClass}`}>
                     <span>{format(date, 'EEE, d MMM')}</span>

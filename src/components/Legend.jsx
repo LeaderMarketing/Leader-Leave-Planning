@@ -105,8 +105,8 @@ END:VEVENT
           {displayFilters.map(item => (
             <button
               key={item.id}
-              className={`${styles.filterBtn} ${activeFilter === item.id ? styles.active : ''}`}
-              onClick={() => onFilterChange(activeFilter === item.id ? null : item.id)}
+              className={`${styles.filterBtn} ${activeFilter.includes(item.id) ? styles.active : ''}`}
+              onClick={() => onFilterChange(item.id)}
               style={{
                 '--filter-color': item.color,
                 '--filter-bg': `${item.color}15`,
@@ -150,29 +150,17 @@ END:VEVENT
       <div className={styles.divider} />
 
       <div className={styles.legendSection}>
-        <span className={styles.sectionLabel}>Selected</span>
-        <div className={styles.selectedIndicator}>
-          <span className={styles.selectedDot} />
-          <span className={styles.selectedText}>Your selected dates</span>
-        </div>
-      </div>
-
-      <div className={styles.divider} />
-
-      <div className={styles.legendSection}>
         <button
           className={styles.outlookBtn}
           onClick={generateOutlookCalendar}
           title="Download busy periods as calendar file for Outlook"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.5"/>
-            <path d="M3 10H21" stroke="currentColor" strokeWidth="1.5"/>
-            <path d="M8 2V6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-            <path d="M16 2V6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-            <path d="M12 14V18M12 18L9 15M12 18L15 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          <span>Add to Outlook</span>
+          <img
+            src="https://img.icons8.com/tiny-color/16/appointment-reminders.png"
+            alt="Notification"
+            className={styles.outlookIcon}
+          />
+          <span>Add Busy Dates to Outlook</span>
         </button>
       </div>
     </div>

@@ -139,14 +139,24 @@
   font-weight: 500;
 }
 
-.dateChipGrandFinal {
-  background: var(--color-grand-final-date-bg);
-  color: var(--color-grand-final-date);
+.dateChipLeaveOk {
+  background: rgba(34, 197, 94, 0.15);
+  color: #15803d;
+}
+
+.dateChipLongLeave {
+  background: rgba(59, 130, 246, 0.15);
+  color: #1e40af;
 }
 
 .dateChipBusy {
   background: var(--color-busy-bg);
   color: #b45309;
+}
+
+.dateChipGrandFinal {
+  background: var(--color-grand-final-date-bg);
+  color: var(--color-grand-final-date);
 }
 
 .dateChipRemove {
@@ -251,14 +261,14 @@
   padding: var(--spacing-sm);
   font-size: 0.75rem;
   font-weight: 500;
-  color: var(--color-text-secondary);
+  color: var(--color-selected);
   border-top: 1px solid var(--color-border-light);
   transition: all var(--transition-fast);
 }
 
 .previewToggle:hover {
   background: var(--color-bg);
-  color: var(--color-text-primary);
+  color: var(--color-selected);
 }
 
 .previewChevron {
