@@ -10,7 +10,6 @@ A visual leave planning tool designed to help LEADER employees plan their leave 
 >
 > _When it comes to taking leave it is much appreciated if you plan for following times to offer legendary customer service."_
 >
-> — **Managing Director, LEADER**
 
 This leave planner helps you visualize the best times to take leave throughout the year, ensuring you can enjoy your well-deserved time off while maintaining our commitment to legendary customer service and supporting your teammates.
 
@@ -48,9 +47,10 @@ This leave planner helps you visualize the best times to take leave throughout t
 - **Date Selection**: Click on any weekday to add it to your leave request
 - **Smart Warnings**: Automatic alerts when selecting dates during Busy or Grand Final periods
 - **Visual Indicators**:
-  - Blue chips = Regular dates
-  - Orange chips = Dates within Busy periods
-  - Red chips = Dates within Grand Final periods
+  - Green chips = Leave OK dates
+  - Blue chips = Long Leave dates
+  - Orange chips = Busy dates
+  - Red chips = Grand Final dates
 - **Easy Removal**: Click the ✕ on any date chip to remove it
 - **Business Day Counter**: Automatically calculates working days
 
@@ -60,9 +60,9 @@ This leave planner helps you visualize the best times to take leave throughout t
 - **Copy Email**: Copy the entire email content to your clipboard
 - **Email Preview**: Preview the generated email before sending
 
-### Outlook Integration
+### Outlook Integration (Important: Do This First)
 
-- **Add to Outlook**: Download busy periods as an ICS calendar file
+- **Add Busy Dates to Outlook**: Download busy periods as an ICS calendar file
 - Categories are color-coded:
   - 🔴 Red = Grand Final periods
   - 🟠 Orange = Busy periods
@@ -80,7 +80,7 @@ This leave planner helps you visualize the best times to take leave throughout t
 
 ### Step 2: Select Your Dates
 
-1. Click on any weekday to select it (turns blue, orange, or red depending on period)
+1. Click on any weekday to select it (turns green, blue, orange, or red depending on period)
 2. Selected dates appear in the Leave Request panel on the right
 3. Click a selected date again OR click the ✕ to remove it
 
@@ -97,9 +97,16 @@ This leave planner helps you visualize the best times to take leave throughout t
 2. Or click **"Copy Email"** to paste it manually
 3. Review and send to your manager
 
-### Bonus: Sync with Outlook
+### Step 5: Sync with Outlook (Do This First)
 
-Click **"Add to Outlook"** in the legend panel to download busy periods as calendar reminders.
+Before anything else, click **"Add Busy Dates to Outlook"** to download the ICS file, then follow these steps:
+
+1. **Click to download** the ICS file.
+2. **Open the ICS file** (this will open Outlook automatically).
+3. Go to **Calendar** in Outlook.
+4. Choose the correct **calendar** from the dropdown.
+5. Click **Import**.
+6. Look for the **confirmation message** that the events were imported.
 
 ---
 
